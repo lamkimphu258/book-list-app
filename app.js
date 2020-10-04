@@ -66,12 +66,14 @@ class Store {
   static addBook(addBook) {
     const books = Store.getBooks()
     const ui = new UI()
-    books.forEach(book => {
-      if (addBook.isbn === book.isbn) {
+    console.log('Add book:', addBook.isbn);
+    for (let book of books) {
+      if (parseInt(addBook.isbn) === parseInt(book.isbn)) {
         ui.showAlert('This ISBN is already existed', 'error')
         return false
       }
-    })
+    }
+
     books.push(addBook)
     localStorage.setItem('books', JSON.stringify(books))
     return true
@@ -107,6 +109,7 @@ document.getElementById('book-form').addEventListener('submit', function (e) {
     ui.showAlert('Please fill in all field', 'error')
   } else {
     const isAdded = Store.addBook(book)
+    console.log('Is added:', isAdded);
     if (isAdded) {
       ui.addBookToList(book)
       ui.showAlert('Book Added!', 'success')
